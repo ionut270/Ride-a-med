@@ -17,10 +17,18 @@ class Vehicle:
 
     def getEnd_depot(self):
         return self.end_depot
-
+    def getId(self):
+        return self.id
     def getCapacity(self):
         return self.capacity
-
+    def getStartTime(self):
+        print(type(self.availability))
+        hours=self.availability[0].split(":")
+        return hours[0]
+    def getEndTime(self):
+        print(type(self.availability))
+        hours = self.availability[0].split(":")
+        return hours[1]
     def getAvailability(self):
         return self.availability
     def __str__(self):

@@ -27,14 +27,22 @@ class PTP:
         self.activities = []
         for patient in self.patients:
             start_date=extractDurationFromStringInSeconds(patient.getRdvTime()) - self.maxWaitTime
+
             end_date=extractDurationFromStringInSeconds(patient.getRdvTime())+extractDurationFromStringInSeconds(patient.getRdvDuration())
+
             time_to_go_home=end_date+self.maxWaitTime
-            duration=extractDurationFromStringInSeconds(patient.getSrvDuration())
+
+            duration=extractDurationFromStringInSeconds(patient.getRdvDuration())
+
             forwardActivity = Activity(start_date,end_date,time_to_go_home,patient,duration,TypeActivity.FORWARD)
-            backwardActivity = Activity(start_date,end_date,time_to_go_home,patient,duration,TypeActivity.BACKWARD)
+            backwardActivity = Activity(forwardActivity.getEndDate(),forwardActivity.getTimeToGoHome(),time_to_go_home,patient,duration,TypeActivity.BACKWARD)
             self.activities.append(forwardActivity)
             self.activities.append(backwardActivity)
 
+    def transformToHoursMiunutes(self,secondss):
+        m, s = divmod(secondss, 60)
+        h, m = divmod(m, 60)
+        return f"{h}h{m}m"
     def getActivities(self):
         return self.activities
 

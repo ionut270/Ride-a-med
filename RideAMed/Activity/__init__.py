@@ -44,21 +44,24 @@ class Activity:
 
     def getType(self):
         return self.type
+    def getTimeToGoHome(self):
+        return self.time_to_go_home
+    # def __gt__(self, other):
+    #     if self.end_date > other.getEndDate():
+    #         return True
+    #     else:
+    #         return False
 
-    def __gt__(self, other):
-        if self.end_date > other.getEndDate():
-            return True
-        else:
-            return False
-
-    def __lt__(self, other):
-        if self.end_date < other.getEndDate():
-            return True
-        else:
-            return False
+    # def __lt__(self, other):
+    #     if self.start_date < other.getStartDate():
+    #         return True
+    #     else:
+    #         return False
 
     def __str__(self):
         return f"{str(self.patient)} {self.start_date}, {self.end_date}, {self.time_to_go_home}, {self.execution_status}"
+    def __repr__(self):
+        return str(self)
 class TypeActivity(Enum):
     FORWARD = 1
     BACKWARD = 0
