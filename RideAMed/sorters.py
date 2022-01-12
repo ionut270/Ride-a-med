@@ -64,9 +64,9 @@ def getPacientWithID(start_location: int, patients_list: list):
             return p
 
 def getForwardActivities(activities:list):
-    return [ac for ac in activities if ac.getType() == TypeActivity.FORWARD]
+    return [ac for ac in activities if ac.getType() == 1]
 def getBackwardActivities(activities:list):
-    return [ac for ac in activities if ac.getType() == TypeActivity.BACKWARD]
+    return [ac for ac in activities if ac.getType() == 0]
 # extractData = ExtractData("E:\\anul III\\AI\\date_proiect\\easy\PTP-RAND-1_4_2_16.json")
 # problem_instance = PTP(extractData.getMaxWaitTime(), extractData.getPatients(), extractData.getLocations(),
 #                        extractData.getVehicles())

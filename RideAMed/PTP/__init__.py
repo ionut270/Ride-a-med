@@ -34,8 +34,8 @@ class PTP:
 
             duration=extractDurationFromStringInSeconds(patient.getRdvDuration())
 
-            forwardActivity = Activity(start_date,end_date,time_to_go_home,patient,duration,TypeActivity.FORWARD)
-            backwardActivity = Activity(forwardActivity.getEndDate(),forwardActivity.getTimeToGoHome(),time_to_go_home,patient,duration,TypeActivity.BACKWARD)
+            forwardActivity = Activity(patient.getId(),start_date,end_date,time_to_go_home,patient,duration,TypeActivity.FORWARD)
+            backwardActivity = Activity(patient.getId(),forwardActivity.getEndDate(),forwardActivity.getTimeToGoHome(),time_to_go_home,patient,duration,TypeActivity.BACKWARD)
             self.activities.append(forwardActivity)
             self.activities.append(backwardActivity)
 

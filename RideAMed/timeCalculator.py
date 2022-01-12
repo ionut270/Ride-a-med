@@ -59,8 +59,8 @@ def convertFromSecondsToHM(secondss):
         h,m=divmod(m,60)
         return f"{h}h{m}m"
 # print(getHoursMinutes("07h34m"))
-# print (addTime(first_time="11h19m",second_time="2h27mm"))
+#print (addTime(first_time="9h7m",second_time="0h27mm"))
 # print(compareTime("15h35m","05h40m"))
 # print (subtractTime("18h15m","10h30m"))
 # print (subtractTime("00h15m","01h30m"))
-print(compareTime("00h15m","00h00m"))
+#print(compareTime("00h15m","00h00m"))

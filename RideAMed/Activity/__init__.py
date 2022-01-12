@@ -2,7 +2,8 @@ from enum import Enum
 
 
 class Activity:
-    def __init__(self, start_date, end_date,tghome, patient, srvDuration, type_activity):
+    def __init__(self,id, start_date, end_date,tghome, patient, srvDuration, type_activity):
+        self.id=id
         self.start_date = start_date
         self.end_date = end_date
         self.time_to_go_home=tghome
@@ -41,9 +42,13 @@ class Activity:
 
     def setType(self, typeActivity):
         self.type = typeActivity
-
+    def getID(self):
+        return self.id
     def getType(self):
-        return self.type
+        if self.type==TypeActivity.FORWARD:
+            return 1
+        else:
+            return 0
     def getTimeToGoHome(self):
         return self.time_to_go_home
     # def __gt__(self, other):
