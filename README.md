@@ -1,5 +1,6 @@
 # Ride-a-med
 
+Cautati in proiect program.txt
 Project paper : https://www.info.ucl.ac.be/~pschaus/assets/publi/cp18-patient.pdf
 Language used: Python
 
