@@ -10,12 +10,11 @@ class Monitor:
     choosed_pacients=[]
     def __init__(self,car:Vehicle):
         self.car=car
-        self.car_depo=car.getStart_depot()
+        self.car_depo=car.getStartDepo()
         self.car_capacity=car.getCapacity()
-        #self.car_capacity =0
         self.list_activities=[]
         self.current_time=car.getStartTime()
-        self.current_position=car.getStart_depot()
+        self.current_position=car.getStartDepo()
     def getCurrentCarCapacity(self):
         return self.car_capacity
     def updateCarCapacity(self,places,load=True):

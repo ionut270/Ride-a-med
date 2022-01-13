@@ -31,7 +31,8 @@ def checkCarLoad(car_monitor: Monitor, activity: Activity):
     return 1
 
 def verifyTimes(car_monitor:Monitor,activity:Activity):
-    remainingTimes=car_monitor.RemaninigTime():
+    remainingTimes=car_monitor.RemaninigTime()
+    return 0
     #o sa o fac eu maine asta
 def findAvailableCar(monitors: list, activity: Activity, matrix: int):
     car_monitor = getNeareasrtCar(monitors, activity, matrix)
@@ -67,19 +68,25 @@ def unloadCars(monitor_list: list, matrix: int):
         activity = car_activities_list[index]
         print(f"Pacient with id {activity.getPatient().getId()} on destination", activity.getID(), activity.getType())
         updateAfterUnload(m, activity, matrix)
+    return 0
+
+def getMinimumDistanceFromCarLocation(car_monitr:Monitor,matrix:int):
+    poz=car_monitr.getCurrentPosition()
+    return min(matrix[poz])
 
 
 def updateAfterUnload(car_monitor: Monitor, activity: Activity, matrix: int):
     if activity.getType() == 1:
         car_monitor.succesfull_close_activities_forward.append(activity)
+        new_pozition = activity.getPatient().getDestination()  # mut masina la destinatia pacientului
     else:
         car_monitor.succesfull_close_activities_backward.append(activity)
+        new_pozition = activity.getPatient().getEndLocation()  # mut masina la destinatia pacientului
         # de facut check cu timpul activitatii
     patient = activity.getPatient()
     car_monitor.updateCarCapacity(patient.getLoad(), False)
-    ########!!!!!!!!de facut
-    #pentru backward new_poz=(activity.getPatient().getEndLocation)
-    new_pozition = activity.getPatient().getDestination()  # mut masina la destinatia pacientului
+    if new_pozition==-1:
+        new_pozition=getMinimumDistanceFromCarLocation(car_monitor,matrix);
     car_monitor.updateCurrentTime(matrix[car_monitor.getCurrentPosition()][new_pozition])
     car_monitor.setNewPosition(new_pozition)
     car_monitor.removeActivity(activity)
@@ -112,14 +119,29 @@ def findCarThatHasForwardActivity(monitors_list: list, activity_id: int, matrix:
                 car = m
     updateAfterUnload(car, activ, matrix)
 
-def getTotalofActivitiesDone(list_of_forwardActivities,list_of_backward_activities):
+def getTotalofActivitiesDone(list_of_forwardActivities:list,list_of_backward_activities:list):
     count=0
     for ac in list_of_forwardActivities:
         for bc in list_of_backward_activities:
             if ac.getID()==bc.getID():
                 count+=1
     return count
-
+def unloadAllRemainigPatients(monitors:list,matrix:int):
+    for m in monitors:
+        aclist =m.getCarActivities()
+        if len(aclist) != 0:
+            while (len(aclist) != 0):
+                updateAfterUnload(m, aclist[0], matrix)
+def checkifCarPassedTime(monitor_list):
+    for mon in monitor_list: 
+        if compareTime(mon.getCar().getEndTime(),mon.getCurrentTime())==2:
+            return 0
+    return 1
+def sendCarsToDepos(monitors_list:list,matrix:int):
+    for car_monitor in monitors_list:
+        depo_position=car_monitor.getCar().getEndDepo()
+        car_monitor.updateCurrentTime(matrix[car_monitor.getCurrentPosition()][depo_position])
+        car_monitor.setNewPosition(depo_position)
 def main():
     extractData = ExtractData("E:\\anul III\\AI\\date_proiect\\easy\PTP-RAND-1_4_2_16.json")
     problem_instance = PTP(extractData.getMaxWaitTime(), extractData.getPatients(), extractData.getLocations(),
@@ -163,7 +185,7 @@ def main():
                 unloadCars(monitors_list, distances_matrix)
                 # de facut reverify conditii daca pot lua pacientul din activitatea curenta
         activity = activities[0]
-        while activity.getType() == 0:
+        while activity.getType() == 0 and len(activities)!=0:
             print("Current: Backward activity", activity.getID())
             if checkIfValidActivity(activity,monitors_list[0]) == 0:  # activitatea nu e in succesful_closed_forward_activities
                 print(f"Need to deliver forward activity eith id {activity.getID()} first")
@@ -176,19 +198,25 @@ def main():
                     print(f"Load patient backward {activity.getPatient().getId()} in car {car_monitor.getCar().getId()}")
                     places = activity.getPatient().getLoad()
                     loadPacientInCar(car_monitor, activity, distances_matrix, places)
-                    print("Activities list is ",activities)
+                    #print("Activities list is ",activities)
                     if len(activities)!=0:
                         activities.remove(activity)
                         if len(activities)!=0:
                             activity = activities[0]
                 else:
                     unloadCars(monitors_list,distances_matrix)
-
+    unloadAllRemainigPatients(monitors_list,distances_matrix)
+    sendCarsToDepos(monitors_list,distances_matrix)
+    if checkifCarPassedTime(monitors_list)==0:
+        print("Car worked overtime")
+    else:
+        print("All cars in time")
     #final checking
     list_fr=monitors_list[0].succesfull_close_activities_forward
     list_bk=monitors_list[0].succesfull_close_activities_backward
     satisfied_requests=getTotalofActivitiesDone(list_fr,list_bk)
     print(satisfied_requests)
+
 
 
 main()

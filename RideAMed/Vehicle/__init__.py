@@ -12,10 +12,10 @@ class Vehicle:
     def getCategories(self):
         return self.categories
 
-    def getStart_depot(self):
+    def getStartDepo(self):
         return self.start_depot
 
-    def getEnd_depot(self):
+    def getEndDepo(self):
         return self.end_depot
     def getId(self):
         return self.id
