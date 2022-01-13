@@ -1,0 +1,47 @@
+<html>
+    <head>
+        <script src="./p5/p5.js"></script>
+
+        <script type="text/javascript" language="javascript" src="data.js"></script>
+
+        <script type="text/javascript" language="javascript" src="time.js"></script>
+        <script type="text/javascript" language="javascript" src="solution.js"></script>
+        <script type="text/javascript" language="javascript" src="render.js"></script>
+    </head>
+    <style>
+        body{
+            width: 100vw;
+            height: 100vh;
+            margin: 0 !important;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .activity{
+            border: 1px black solid;
+            height: 800px;
+            width: 400px;
+
+            overflow-y: scroll;
+        }
+
+        .activityOrder{
+           text-align: center; 
+           font-size: 10px;
+           border: 1px black solid;
+
+           width: 400px;
+        }
+    </style>
+    <body>
+        <div class="activity">
+            <div class="activityOrder">
+                <p>ACTIVITY ORDER</p>
+                <div class="list"></div>
+            </div>
+        </div>
+        <main>
+        </main>
+    </body>
+</html>
