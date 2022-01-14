@@ -1,0 +1,10 @@
+Distributie:
+Isac Iulian George:30%
+	-clase pentru a modela datele extrase
+	-modelare problema
+Oancea Ionut-Eugen :15%
+	-incercare de realizare UI( vizualizare a datelor si algoritmului)	
+	-modelare problema
+Bodnariu Daniel-Iustin:55%
+	-algoritm+clase adiacente
+	-modelare problema

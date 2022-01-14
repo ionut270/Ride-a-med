@@ -1,0 +1,149 @@
+D:\python\RideAMed\venv\Scripts\python.exe D:/python/RideAMed/final.py
+1
+<class 'list'>
+<class 'list'>
+F 26 7h45m 11h12m
+F 38 7h49m 10h55m
+F 31 7h52m 8h42m
+F 29 7h54m 8h52m
+F 28 8h27m 9h36m
+B 31 8h42m 9h12m
+B 29 8h52m 9h22m
+F 24 9h4m 12h11m
+B 28 9h36m 10h6m
+F 23 10h13m 11h6m
+B 38 10h55m 11h25m
+B 23 11h6m 11h36m
+B 26 11h12m 11h42m
+F 34 11h19m 14h16m
+B 24 12h11m 12h41m
+F 27 13h18m 15h16m
+F 36 13h27m 16h22m
+F 32 13h30m 16h19m
+F 25 13h39m 17h6m
+F 35 14h7m 17h19m
+B 34 14h16m 14h46m
+F 33 15h8m 18h15m
+F 30 15h12m 17h58m
+B 27 15h16m 15h46m
+F 37 15h26m 18h32m
+B 32 16h19m 16h49m
+B 36 16h22m 16h52m
+B 25 17h6m 17h36m
+B 35 17h19m 17h49m
+B 30 17h58m 18h28m
+B 33 18h15m 18h45m
+B 37 18h32m 19h2m
+---
+Current :Forward Activity 31
+Load patient 31 in car 21
+Current :Forward Activity 29
+Load patient 29 in car 21
+Current :Forward Activity 28
+Load patient 28 in car 22
+Current: Backward activity 31
+Need to deliver forward activity eith id 31 first
+Current: Backward activity 31
+Load patient backward 31 in car 21
+Current: Backward activity 29
+Need to deliver forward activity eith id 29 first
+Current: Backward activity 29
+Load patient backward 29 in car 22
+Current :Forward Activity 24
+Load patient 24 in car 21
+Current: Backward activity 28
+Need to deliver forward activity eith id 28 first
+//aici s-a facut deliver la pacient
+Current: Backward activity 28
+Pacient with id 24 on destination 24 1
+Pacient with id 29 on destination 29 0
+Current: Backward activity 28
+Load patient backward 28 in car 22
+Current :Forward Activity 23
+Load patient 23 in car 22
+Current: Backward activity 38
+Need to deliver forward activity eith id 38 first
+Current: Backward activity 38
+Load patient backward 38 in car 21
+Current: Backward activity 23
+Need to deliver forward activity eith id 23 first
+Current: Backward activity 23
+Load patient backward 23 in car 21
+Current: Backward activity 26
+Need to deliver forward activity eith id 26 first
+Current: Backward activity 26
+Load patient backward 26 in car 21
+Current :Forward Activity 34
+Load patient 34 in car 22
+Current: Backward activity 24
+Pacient with id 26 on destination 26 0
+Pacient with id 28 on destination 28 0
+Current: Backward activity 24
+Pacient with id 23 on destination 23 0
+Pacient with id 34 on destination 34 1
+Current: Backward activity 24
+Load patient backward 24 in car 21
+Current :Forward Activity 27
+Load patient 27 in car 22
+Current :Forward Activity 36
+Load patient 36 in car 22
+Current :Forward Activity 32
+Load patient 32 in car 22
+Current :Forward Activity 25
+Unload cars:
+Pacient with id 24 on destination 24 0
+Pacient with id 27 on destination 27 1
+Current :Forward Activity 25
+Load patient 25 in car 21
+Current :Forward Activity 35
+Load patient 35 in car 22
+Current: Backward activity 34
+Load patient backward 34 in car 22
+Current :Forward Activity 33
+Unload cars:
+Pacient with id 38 on destination 38 0
+Pacient with id 35 on destination 35 1
+Current :Forward Activity 33
+Load patient 33 in car 21
+Current :Forward Activity 30
+Load patient 30 in car 21
+Current: Backward activity 27
+Pacient with id 25 on destination 25 1
+Pacient with id 34 on destination 34 0
+Current: Backward activity 27
+Pacient with id 33 on destination 33 1
+Pacient with id 32 on destination 32 1
+Current: Backward activity 27
+Load patient backward 27 in car 21
+Current :Forward Activity 37
+Load patient 37 in car 21
+Current: Backward activity 32
+Load patient backward 32 in car 22
+Current: Backward activity 36
+Need to deliver forward activity eith id 36 first
+Current: Backward activity 36
+Load patient backward 36 in car 22
+Current: Backward activity 25
+Load patient backward 25 in car 22
+Current: Backward activity 35
+Pacient with id 30 on destination 30 1
+Pacient with id 25 on destination 25 0
+Current: Backward activity 35
+Load patient backward 35 in car 22
+Current: Backward activity 30
+Load patient backward 30 in car 21
+Current: Backward activity 33
+Pacient with id 30 on destination 30 0
+Pacient with id 35 on destination 35 0
+Current: Backward activity 33
+Load patient backward 33 in car 22
+Current: Backward activity 37
+Need to deliver forward activity eith id 37 first
+Current: Backward activity 37
+Load patient backward 37 in car 21
+<class 'list'>
+<class 'list'>
+All cars in time
+16
+
+Process finished with exit code 0
