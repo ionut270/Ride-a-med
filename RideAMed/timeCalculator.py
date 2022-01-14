@@ -63,4 +63,4 @@ def convertFromSecondsToHM(secondss):
 # print(compareTime("15h35m","05h40m"))
 # print (subtractTime("18h15m","10h30m"))
 # print (subtractTime("00h15m","01h30m"))
-#print(compareTime("00h15m","00h00m"))
+print(compareTime("-00h15m","00h00m"))

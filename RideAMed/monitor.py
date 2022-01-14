@@ -42,9 +42,12 @@ class Monitor:
         return self.list_activities
     def addActivityToCar(self,activity:Activity):
         self.list_activities.append(activity)
-    def updateCurrentTime(self,new_time:str):
+    def updateCurrentTime(self,new_time):
         """update currentime cu timp din matricea de distante"""
-        new_current_time=addTime(self.current_time,self.convertFromMinutesToHM(new_time))
+        if isinstance(new_time,int):
+            new_current_time=addTime(self.current_time,self.convertFromMinutesToHM(new_time))
+        else:
+            new_current_time = addTime(self.current_time, new_time)
         self.current_time=new_current_time
     def __str__(self):
         return  f"{self.car.getId()},{self.list_activities}"

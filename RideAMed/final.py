@@ -2,14 +2,22 @@ from Activity import Activity
 from ExtractData import ExtractData
 from PTP import PTP
 from monitor import Monitor
-from timeCalculator import convertFromSecondsToHM, compareTime
+from timeCalculator import convertFromSecondsToHM, compareTime, addTime, subtractTime
 
 
 def loadPacientInCar(car_monitor: Monitor, activity: Activity, matrix, load_flag):
     car_monitor.addActivityToCar(activity)
     car_monitor.updateCarCapacity(load_flag)
     new_pozition = activity.getPatient().getStartLocation()
-    car_monitor.updateCurrentTime(matrix[car_monitor.getCurrentPosition()][new_pozition])
+    if activity.getType()==1:
+        car_monitor.updateCurrentTime(matrix[car_monitor.getCurrentPosition()][new_pozition])
+    else:
+        new_pozition = activity.getPatient().getDestination()
+        tm=addTime(car_monitor.getCurrentTime(),car_monitor.convertFromMinutesToHM(matrix[car_monitor.getCurrentPosition()][new_pozition]))
+        nr = subtractTime(convertFromSecondsToHM(activity.getEndDate()),tm)
+        waiting_car_time = subtractTime(nr, "00h10m")
+        car_monitor.updateCurrentTime(matrix[car_monitor.getCurrentPosition()][new_pozition])
+        car_monitor.updateCurrentTime(waiting_car_time)
     car_monitor.setNewPosition(new_pozition)
 
 
@@ -29,6 +37,40 @@ def checkCarLoad(car_monitor: Monitor, activity: Activity):
     if car_monitor.getCurrentCarCapacity() - activity.getPatient().getLoad() < 0:  # verific daca luand acel pacient depasesc capacitatea masinii
         return 0
     return 1
+def verifyRemaninigTimes(car_monitor:Monitor,activiy:Activity,matrix:int):
+    if activiy.getType()==1:#activitatea e forward
+        car_poz=car_monitor.getCurrentPosition()
+        new_time1=addTime(car_monitor.getCurrentTime(),car_monitor.convertFromMinutesToHM(matrix[car_poz][activiy.getPatient().getStartLocation()]))
+        car_poz=activiy.getPatient().getStartLocation()
+        for ac in car_monitor.getCarActivities():
+            new_time=addTime(new_time1,car_monitor.convertFromMinutesToHM(matrix[car_poz][ac.getPatient().getDestination()]))
+            if compareTime(ac.getPatient().getRdvTime(),new_time1)==-1 or compareTime(ac.getPatient().getRdvTime(),new_time)==-1:
+                return 0
+    else:#activitatea este backward
+        car_poz = car_monitor.getCurrentPosition()
+        new_time1 = addTime(car_monitor.getCurrentTime(),car_monitor.convertFromMinutesToHM(matrix[car_poz][activiy.getPatient().getDestination()]))
+        #
+        nr=subtractTime(convertFromSecondsToHM(activiy.getEndDate()),new_time1)
+        new_car_time=subtractTime(nr,"00h10m")
+        new_car_time=addTime(new_time1,new_car_time)
+        car_poz=activiy.getPatient().getDestination()
+        for ac in car_monitor.getCarActivities():
+            if ac.getType()==1:
+                new_time = addTime(new_car_time,car_monitor.convertFromMinutesToHM(matrix[car_poz][ac.getPatient().getDestination()]))
+                if compareTime(ac.getPatient().getRdvTime(), new_time1) == -1 or compareTime(
+                        ac.getPatient().getRdvTime(),
+                        new_time) == -1:
+                    return 0
+            else:
+                new_time = addTime(new_car_time,car_monitor.convertFromMinutesToHM(matrix[car_poz][ac.getPatient().getEndLocation()]))
+                if compareTime(convertFromSecondsToHM(activiy.getEndDate()), new_time1) == -1 or compareTime(
+                    convertFromSecondsToHM(activiy.getEndDate()),
+                    new_time) == -1:
+                    return 0
+    return 1
+
+
+
 
 def verifyTimes(car_monitor:Monitor,activity:Activity):
     remainingTimes=car_monitor.RemaninigTime()
@@ -41,9 +83,11 @@ def findAvailableCar(monitors: list, activity: Activity, matrix: int):
     else:
         for m in monitors:  # daca cea mai apropiata masina nu e disponibila caut alta masina disponibila
             #if m.getCar().getId() != car_monitor.getCar().getId():
-                if checkCarLoad(m, activity) == 1:  # !!!!!!!!!!!!!! de facut in acelasi timp si check cu remainig_times
-                    # !!!!!!!!!!!!!! daca pacientul pe care vreau sa-l iau pune in dificultate trasnportarea celorlalti nu-l iau
-                    return m
+                if checkCarLoad(m, activity) == 1:
+                    if verifyRemaninigTimes(m,activity,matrix)==1:
+                    #  check cu remainig_times
+                    # daca pacientul pe care vreau sa-l iau pune in dificultate trasnportarea celorlalti nu-l iau
+                        return m
                 else:  # daca nu am nicio masina disponibila
                     car_monitor = None
     return car_monitor
@@ -133,7 +177,8 @@ def unloadAllRemainigPatients(monitors:list,matrix:int):
             while (len(aclist) != 0):
                 updateAfterUnload(m, aclist[0], matrix)
 def checkifCarPassedTime(monitor_list):
-    for mon in monitor_list: 
+    for mon in monitor_list:
+        # print(mon.getCurrentTime())
         if compareTime(mon.getCar().getEndTime(),mon.getCurrentTime())==2:
             return 0
     return 1
@@ -183,7 +228,7 @@ def main():
             else:  # daca masinile sunt full-nu mai pot lua alti pacienti
                 print("Unload cars:")
                 unloadCars(monitors_list, distances_matrix)
-                # de facut reverify conditii daca pot lua pacientul din activitatea curenta
+                # de facut reverify conditii daca pot lua pacientul din activitatea curenta # don't need while-ul o tine pe loc pana cand gasesc ceva disponibil
         activity = activities[0]
         while activity.getType() == 0 and len(activities)!=0:
             print("Current: Backward activity", activity.getID())
@@ -192,7 +237,7 @@ def main():
                 findCarThatHasForwardActivity(monitors_list, activity.getID(),
                                               distances_matrix)  # and remove it from car list
             else:  # daca activitarea e in closed_forward pot sa iau activitatea
-                # !!!!!!!!!!!!!!!!!!!!!de facut un check atunci cand car.current_time-activity.startTime<"00h10m"
+
                 car_monitor = findAvailableCar(monitors_list, activity, distances_matrix)
                 if car_monitor!=None:
                     print(f"Load patient backward {activity.getPatient().getId()} in car {car_monitor.getCar().getId()}")
